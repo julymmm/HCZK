@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.backend.resource.mapper.ResourceMapper">
+
+    <select id="list" resultType="com.example.backend.resource.model.Resource">
+        SELECT
+            id,
+            title,
+            description,
+            category,
+            type,
+            link_url AS resourceUrl,
+            tags,
+            view_count AS eyeCount,
+            hic,
+            source,
+            created_at AS createdAt,
+            content_url AS contentUrl
+        FROM resources
+        <where>
+            <if test="source != null and source != ''">
+                AND source = REPLACE(#{source}, '&quot;', '')
+            </if>
+            <if test="category != null and category != '' and category != '全部'">
+                AND category = REPLACE(#{category}, '&quot;', '')
+            </if>
+            <if test="type != null and type != '' and type != '全部'">
+                AND type = REPLACE(#{type}, '&quot;', '')
+            </if>
+            <if test="search != null and search != ''">
+                AND (
+                    title LIKE CONCAT('%', REPLACE(#{search}, '&quot;', ''), '%')
+                    OR description LIKE CONCAT('%', REPLACE(#{search}, '&quot;', ''), '%')
+                )
+            </if>
+            <if test="tags != null and tags.size() &gt; 0">
+                <foreach item="tag" collection="tags">
+                    AND FIND_IN_SET(#{tag}, tags)
+                </foreach>
+            </if>
+        </where>
+        ORDER BY created_at DESC, id DESC
+        LIMIT ${limit} OFFSET ${offset}
+    </select>
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM resources
+        <where>
+            <if test="source != null and source != ''">
+                AND source = REPLACE(#{source}, '&quot;', '')
+            </if>
+            <if test="category != null and category != '' and category != '全部'">
+                AND category = REPLACE(#{category}, '&quot;', '')
+            </if>
+            <if test="type != null and type != '' and type != '全部'">
+                AND type = REPLACE(#{type}, '&quot;', '')
+            </if>
+            <if test="search != null and search != ''">
+                AND (
+                    title LIKE CONCAT('%', REPLACE(#{search}, '&quot;', ''), '%')
+                    OR description LIKE CONCAT('%', REPLACE(#{search}, '&quot;', ''), '%')
+                )
+            </if>
+            <if test="tags != null and tags.size() &gt; 0">
+                <foreach item="tag" collection="tags">
+                    AND FIND_IN_SET(#{tag}, tags)
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+</mapper>

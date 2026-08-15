@@ -1,0 +1,43 @@
+# Dependencies
+**/node_modules/
+
+# Frontend build output
+fronted/dist/
+
+# Backend build output and generated static bundle
+**/target/
+backend/src/main/resources/static/
+
+# Local configuration and secrets
+backend/application-local.properties
+**/application-local.properties
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+*.p12
+*.jks
+
+# Uploaded files and local data
+backend/uploads/
+backend/uploads.zip
+uploads/
+
+# Logs and JVM crash dumps
+*.log
+backend-*.log
+hs_err_pid*.log
+replay_pid*.log
+
+# IDE and OS files
+.idea/
+.vscode/
+.cursor/
+*.iml
+.DS_Store
+Thumbs.db
+
+# Personal/exported documents
+说明文档-*
+backend/*代码审查*.md

@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.backend.article.mapper.ArticleMapper">
+
+    <select id="list" resultType="com.example.backend.article.model.Article">
+        SELECT
+            id,
+            title,
+            summary,
+            cover_image AS coverImage,
+            view_count AS viewCount,
+            link_url AS linkUrl,
+            publish_time AS publishTime,
+            created_at AS createdAt,
+            source
+        FROM articles
+        <where>
+            <if test="search != null and search != ''">
+                AND (
+                    title LIKE CONCAT('%', REPLACE(#{search}, '&quot;', ''), '%')
+                    OR summary LIKE CONCAT('%', REPLACE(#{search}, '&quot;', ''), '%')
+                )
+            </if>
+            <if test="source != null and source != ''">
+                AND source = REPLACE(#{source}, '&quot;', '')
+            </if>
+        </where>
+        ORDER BY publish_time DESC, id DESC
+        LIMIT ${limit} OFFSET ${offset}
+    </select>
+
+    <select id="count" resultType="java.lang.Long">
+        SELECT COUNT(*)
+        FROM articles
+        <where>
+            <if test="search != null and search != ''">
+                AND (
+                    title LIKE CONCAT('%', REPLACE(#{search}, '&quot;', ''), '%')
+                    OR summary LIKE CONCAT('%', REPLACE(#{search}, '&quot;', ''), '%')
+                )
+            </if>
+            <if test="source != null and source != ''">
+                AND source = REPLACE(#{source}, '&quot;', '')
+            </if>
+        </where>
+    </select>
+
+</mapper>
