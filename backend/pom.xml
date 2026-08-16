@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.example</groupId>
-    <artifactId>astraforge-backend</artifactId>
+    <artifactId>labvault-research-hub-backend</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>AstraForge Knowledge Hub Backend</name>
-    <description>Spring Boot backend for AstraForge Knowledge Hub</description>
+    <name>LabVault Research Hub Backend</name>
+    <description>Spring Boot backend for LabVault Research Hub</description>
     <url/>
     <licenses>
         <license/>
